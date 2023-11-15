@@ -51,6 +51,7 @@ class LoginViewModel @Inject constructor(
         ) {
             dataStore.edit {
                 it[PreferencesKey.LOGADO] = true
+                it[PreferencesKey.USUARIO_ATUAL] = _uiState.value.usuario
             }
             logaUsuario()
         } else {

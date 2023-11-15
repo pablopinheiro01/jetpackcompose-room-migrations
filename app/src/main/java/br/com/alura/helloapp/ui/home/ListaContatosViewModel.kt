@@ -7,10 +7,13 @@ import androidx.datastore.preferences.core.edit
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import br.com.alura.helloapp.database.ContatoDao
+import br.com.alura.helloapp.preferences.PreferencesKey
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,8 +32,17 @@ class ListaContatosViewModel @Inject constructor(
     }
 
     private fun buscaContatos() {
+
+        viewModelScope.launch(Dispatchers.IO){
+            dataStore.data.first()[PreferencesKey.USUARIO_ATUAL]?.let{
+                _uiState.value = _uiState.value.copy(
+                    usuarioAtual = it
+                )
+            }
+        }
+
         viewModelScope.launch {
-            val contatos = contatoDao.buscaTodos()
+            val contatos = contatoDao.buscaTodosPorUsuario(_uiState.value.usuarioAtual)
             contatos.collect { contatosBuscados ->
                 _uiState.value = _uiState.value.copy(
                     contatos = contatosBuscados
