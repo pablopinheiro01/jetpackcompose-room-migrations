@@ -54,6 +54,11 @@ android {
         correctErrorTypes true
     }
 
+    ksp{
+        //path where save schema db
+        arg("room.schemaLocation","$projectDir/schemas")
+    }
+
 }
 
 dependencies {
