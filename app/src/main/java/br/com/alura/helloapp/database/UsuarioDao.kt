@@ -13,4 +13,7 @@ interface UsuarioDao {
 
     @Query("SELECT * FROM usuario")
     fun buscaTodos(): Flow<List<Usuario>>
+
+    @Query("SELECT * FROM usuario WHERE idUsuario = :usuario")
+    fun buscaPorId(usuario: String): Flow<Usuario?>
 }
