@@ -1,5 +1,6 @@
 package br.com.alura.helloapp.database
 
+import androidx.room.AutoMigration
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
@@ -11,8 +12,9 @@ import br.com.alura.helloapp.database.converters.*
     Contato::class,
     Usuario::class
                      ],
-    version = 2,
-    exportSchema = true)
+    version = 3,
+    exportSchema = true,
+    autoMigrations = [AutoMigration(2,3)])
 @TypeConverters(Converters::class)
 abstract class HelloAppDatabase : RoomDatabase() {
     abstract fun contatoDao(): ContatoDao
