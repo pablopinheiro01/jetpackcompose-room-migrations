@@ -9,6 +9,7 @@ import androidx.room.migration.AutoMigrationSpec
 import br.com.alura.helloapp.data.Contato
 import br.com.alura.helloapp.data.Usuario
 import br.com.alura.helloapp.database.converters.*
+import br.com.alura.helloapp.database.migrations.Migration3TO4
 
 @Database(
     entities = [
@@ -30,9 +31,3 @@ abstract class HelloAppDatabase : RoomDatabase() {
 
 }
 
-@RenameColumn(
-    "Usuario",
-    "nomeDeUsuario",
-    "idUsuario"
-)
-class Migration3TO4 : AutoMigrationSpec
