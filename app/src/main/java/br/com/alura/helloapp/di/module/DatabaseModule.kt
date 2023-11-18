@@ -26,6 +26,16 @@ class DatabaseModule {
         }
     }
 
+    val MIGRATION_5_6 = object: Migration(5,6){
+        override fun migrate(database: SupportSQLiteDatabase) {
+            database.execSQL("CREATE TABLE IF NOT EXISTS ContatoCopia (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `nome` TEXT NOT NULL, `sobrenome` TEXT NOT NULL, `telefone` TEXT NOT NULL, `fotoPerfil` TEXT NOT NULL, `aniversario` INTEGER, `idUsuario` TEXT NOT NULL DEFAULT '', FOREIGN KEY(`idUsuario`) REFERENCES `Usuario`(`idUsuario`) ON UPDATE NO ACTION ON DELETE CASCADE )")
+            database.execSQL("INSERT INTO ContatoCopia SELECT * FROM Contato")
+            database.execSQL("DROP TABLE Contato")
+            database.execSQL("ALTER TABLE ContatoCopia RENAME TO Contato")
+        }
+
+    }
+
     @Singleton
     @Provides
     fun provideDatabase(@ApplicationContext context: Context): HelloAppDatabase {
@@ -35,6 +45,7 @@ class DatabaseModule {
             DATABASE_NAME)
 //        .fallbackToDestructiveMigration()//delete old version and recriate with new version
             .addMigrations(MIGRATION_1_TO_2)
+            .addMigrations(MIGRATION_5_6)
             .build()
     }
 
