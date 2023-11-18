@@ -126,7 +126,7 @@ fun CaixaDialogoContasUsuario(
                         .padding(horizontal = 16.dp)
                 ) {
                     items(state.outrasContas){
-                        UsuarioItem(it){idUsuarioClicado ->
+                        UsuarioItem(it){ idUsuarioClicado ->
                             onClickListaContatosPorUsuario(idUsuarioClicado)
                         }
                     }

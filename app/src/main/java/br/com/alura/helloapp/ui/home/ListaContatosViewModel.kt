@@ -41,7 +41,7 @@ class ListaContatosViewModel @Inject constructor(
             }
         }
 
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val contatos = contatoDao.buscaTodosPorUsuario(_uiState.value.usuarioAtual)
             contatos.collect { contatosBuscados ->
                 _uiState.value = _uiState.value.copy(
